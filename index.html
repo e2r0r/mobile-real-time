@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key=ABQIAAAAk85F03h31zTtmq4FqmL8OxSjyTqR5c7Ee62w49r_z-xz-V25aRTR0X2gBeHbrVqx9cuZ3J8GCiZNxQ" type="text/javascript"></script>
+<body  onload="initialize()"  onunload="GUnload()">
+<div  id="map" style="width:100%;height:500px;margin:0 auto;">
+<script type="text/javascript">
+function initialize() {
+  // 檢查瀏覽器是否可正確執行
+  if (GBrowserIsCompatible()) {
+    // 指定GMap使用的圖層
+    var map = new GMap2(document.getElementById("map"));
+   
+    // 地圖控制列
+    map.addControl(new GLargeMapControl()); // 左側控制列
+    map.addControl(new GMapTypeControl()); // 右上控制列
+   
+    // 座標
+    var point = new GLatLng({{start}});
+    // 座標x/y於API v1/v2的擺放位址是相反的
+    map.setCenter(point, 12); // 放大倍率
+
+    // 自訂圖標
+    var TruckIcon = new GIcon(G_DEFAULT_ICON);
+    TruckIcon.image = "http://www.gstatic.com/codesite/ph/images/star_on.gif";
+    // 自訂圖標大小
+     TruckIcon.iconSize = new GSize(15, 15);
+          markerOptions = { icon:TruckIcon };
+   
+    // 設定座標點使用自訂圖標
+    var marker = new GMarker(point, markerOptions);
+    map.addOverlay(marker);
+   
+    // 訊息
+    map.openInfoWindow(map.getCenter(), document.createTextNode("Start"));
+       
+    // 行車軌跡、顏色、線粗細設定（可定義多個座標點）
+    var polyline = new GPolyline([{{geolist}}], "#ff0000", 6);
+    map.addOverlay(polyline);
+  } else {
+    alert("您的瀏覽器不支援Google Maps！！");
+  }
+}
+</script>
+</body>
+</html>
+
